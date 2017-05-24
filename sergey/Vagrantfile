@@ -1,0 +1,18 @@
+Vagrant.configure(2) do |config|
+
+  config.vm.define "node1" do |conf|
+    conf.vm.box = "centos/7"
+    conf.vm.hostname = 'ansible.example.com'
+  end
+
+  config.vm.define "node2" do |conf|
+    conf.vm.box = "centos/7"
+    conf.vm.hostname = 'centos.exmample.org'
+  end
+  
+  config.vm.define "node3" do |conf|
+    conf.vm.box = "ubuntu/xenial64"
+    conf.vm.hostname = 'ubuntu.example.com'
+  end
+
+end
