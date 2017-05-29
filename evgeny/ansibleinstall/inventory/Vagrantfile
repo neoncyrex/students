@@ -5,14 +5,12 @@ Vagrant.configure(2) do |config|
     dos.vm.hostname = 'ansible.example.com'
     dos.vm.network "private_network", ip: "172.28.128.15"
     dos.vm.provision "shell", inline: $upeth1
-    config.vm.provision "shell", inline: <<-SHELL
+    dos.vm.provision "shell", inline: <<-SHELL
       sudo useradd devops -m
       sudo echo "Ansible123" | passwd "devops" --stdin
-#      sleep 10
       sudo mkdir /home/devops/.ssh/
       sudo chmod 0600 /home/devops/.ssh/
       sudo chown devops:devops /home/devops/.ssh/
-#      sleep 10
       sudo ssh-keygen -b 2048 -t rsa -f /home/devops/.ssh/id_rsa -q -N ""
       sudo chmod 0600 /home/devops/.ssh/id_rsa
       sudo chown devops:devops /home/devops/.ssh/id_rsa
@@ -33,6 +31,14 @@ Vagrant.configure(2) do |config|
     dos.vm.hostname = 'centos1.example.com'
     dos.vm.network "private_network", ip: "172.28.128.16"
     dos.vm.provision "shell", inline: $upeth1
+    dos.vm.provision "shell", inline: <<-SHELL
+      sudo useradd mgmt -m
+      sudo echo "Ansible123" | passwd "mgmt" --stdin
+      sudo echo "mgmt ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+      sudo cp /etc/ssh/sshd_config /etc/ssh/sshd_config.orig
+      sudo sed -i 's/^PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
+      sudo systemctl restart sshd
+    SHELL
   end
 
   config.vm.define "centos2" do |dos|
@@ -40,6 +46,14 @@ Vagrant.configure(2) do |config|
     dos.vm.hostname = 'centos2.exmample.com'
     dos.vm.network "private_network", ip: "172.28.128.17"
     dos.vm.provision "shell", inline: $upeth1
+    dos.vm.provision "shell", inline: <<-SHELL
+      sudo useradd mgmt -m
+      sudo echo "Ansible123" | passwd "mgmt" --stdin
+      sudo echo "mgmt ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+      sudo cp /etc/ssh/sshd_config /etc/ssh/sshd_config.orig
+      sudo sed -i 's/^PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
+      sudo systemctl restart sshd
+    SHELL
   end
  
 end
