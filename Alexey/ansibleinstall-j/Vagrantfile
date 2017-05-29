@@ -19,4 +19,9 @@ Vagrant.configure(2) do |config|
     conf.vm.hostname = 'ubuntu.example.com'
   end
 
+  config.vm.define "vsrx1" do |vsrx1|
+    vsrx1.vm.box = "juniper/ffp-12.1X47-D15.4"
+    vsrx1.vm.hostname="vsrx1"
+  end
+
 end
