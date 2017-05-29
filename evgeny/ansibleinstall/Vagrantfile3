@@ -1,8 +1,10 @@
-#$myscript = <<SCRIPT
+$myscript = <<SCRIPT
 #yum install epel-release -y
 #yum install ansible -y
 #yum install -y git
-#SCRIPT
+sudo apt install ansible -y
+sudo apt install git -y
+SCRIPT
 
 
 Vagrant.configure(2) do |config|
@@ -10,7 +12,8 @@ Vagrant.configure(2) do |config|
   config.vm.define "testVirtualBox" do |myconf|
     myconf.vm.box = "ubuntu/xenial64"
     myconf.vm.hostname = 'ansible.example.com'
-#    myconf.vm.provision "shell", inline: $myscript
+   myconf.vm.provision "shell", inline: $myscript
+#   ansible.vm.network "private_network", type: "dhcp"
   end
  
 end
