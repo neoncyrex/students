@@ -1,0 +1,5 @@
+[centos]
+ansible.example.com ansible_connection=local
+centos1.example.com ansible_user=devops ansible_ssh_pass=Ansible123 ansible_host=10.0.0.102
+centos2.example.com ansible_user=devops ansible_ssh_pass=Ansible123 ansible_host=10.0.0.103
+
