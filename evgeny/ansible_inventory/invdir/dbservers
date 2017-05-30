@@ -1,0 +1,7 @@
+[dbservers]
+db01.example.com
+db[02:29].db.example.com
+mysql[01:15].mysql.example.com
+oracle01.example.com
+oracle02.example.com
+192.168.12.17
