@@ -1,0 +1,48 @@
+$script = <<SCRIPT
+      useradd -m devops
+      useradd -m ansible
+      echo Ansible123|passwd --stdin devops
+      echo Ansible123|passwd --stdin ansible
+      echo "ansible ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/ansible
+      echo "devops ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/devops
+      mkdir /home/devops/.ssh
+      chown devops:devops /home/devops/.ssh
+      chmod 0700 /home/devops/.ssh
+      sed -i.bak -e "s/asswordAuthentication no/asswordAuthentication yes/" /etc/ssh/sshd_config
+      systemctl restart sshd
+SCRIPT
+
+Vagrant.configure(2) do |config|
+
+  config.vm.define "centos1" do |conf1|
+    conf1.vm.box = "centos/7"
+    conf1.vm.hostname = 'centos1.example.com'
+    conf1.vm.network "private_network", ip: "10.0.0.102"
+    conf1.vm.provision "shell", inline: $script
+  end
+
+
+  config.vm.define "centos2" do |conf|
+    conf.vm.box = "centos/7"
+    conf.vm.hostname = 'centos2.example.com'
+    conf.vm.network "private_network", ip: "10.0.0.103"
+    conf.vm.provision "shell", inline: $script
+  end
+
+  config.vm.define "ansible" do |conf|
+    conf.vm.box = "centos/7"
+    conf.vm.hostname = 'ansible.example.com'
+    conf.vm.network "private_network", ip: "10.0.0.101"
+    conf.vm.provision "shell", inline: $script
+    conf.vm.provision "shell", inline: <<-SHELL
+	yum install epel-release -y
+	yum install ansible git -y
+        cp /vagrant/inventory /etc/ansible/hosts
+        cp /vagrant/ansible.cfg /etc/ansible/ansible.cfg
+        ssh-keygen -f /root/.ssh/id_rsa -t rsa -N ''
+        su vagrant -c "ssh-keygen -f /home/vagrant/.ssh/id_rsa -t rsa -N ''"
+        ansible all -m copy -a "src=/home/vagrant/.ssh/id_rsa.pub dest=/home/devops/.ssh/authorized_keys mode=0600"
+    SHELL
+  end
+
+end
