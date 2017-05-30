@@ -8,7 +8,7 @@ $script = <<SCRIPT
       mkdir /home/devops/.ssh
       chown devops:devops /home/devops/.ssh
       chmod 0700 /home/devops/.ssh
-      sed -i.bak -e "s/asswordAuthentication no/asswordAuthentication yes/" /etc/ssh/sshd_config
+      sed -i.bak -e "s/PasswordAuthentication no/PasswordAuthentication yes/" /etc/ssh/sshd_config
       systemctl restart sshd
 SCRIPT
 
