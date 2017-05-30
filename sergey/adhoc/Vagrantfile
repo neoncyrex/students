@@ -1,0 +1,44 @@
+$ansible_host= <<SCRIPT
+yum install epel-release -y
+yum install ansible -y
+yum install git -y
+useradd ansibleadmin -m
+echo "Ansible123" | passwd ansibleadmin --stdin
+cp /vagrant/ansible.cfg /home/vagrant/.ansible.cfg
+chown vagrant.vagrant /home/vagrant/.ansible.cfg
+cp /vagrant/ansible.cfg /home/ansibleadmin/.ansible.cfg
+chown ansibleadmin.ansibleadmin /home/ansibleadmin/.ansible.cfg
+cp /vagrant/hosts /var/ansible.inventory
+cp /vagrant/runme.sh /home/vagrant/runme.sh
+cp /vagrant/adhoc.sh /home/vagrant/adhoc.sh
+chmod 0755 /home/vagrant/adhoc.sh
+SCRIPT
+
+$centos_host= <<SCRIPT
+yum install epel-release -y
+yum install ansible -y
+yum install git -y
+useradd myuser -m
+echo "Ansible123" | passwd myuser --stdin
+echo "%myuser ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/myuser
+sed -i -e "s/PasswordAuthentication no/PasswordAuthentication yes/g" /etc/ssh/sshd_config
+systemctl restart sshd
+SCRIPT
+
+Vagrant.configure(2) do |config|
+
+  config.vm.define "ansible" do |conf|
+    conf.vm.box = "centos/7"
+    conf.vm.hostname = 'ansible.example.com'
+    conf.vm.provision "shell", inline: $ansible_host
+    conf.vm.network "private_network", ip: "172.28.128.15"
+  end
+
+  config.vm.define "centos" do |conf|
+    conf.vm.box = "centos/7"
+    conf.vm.hostname = 'centos.exmample.org'
+    conf.vm.network "private_network", ip: "172.28.128.16"
+    conf.vm.provision "shell", inline: $centos_host
+  end
+  
+end
