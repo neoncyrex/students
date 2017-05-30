@@ -19,22 +19,30 @@ Vagrant.configure(2) do |config|
       sudo yum install -y ansible
       sudo mkdir /home/devops/ansible
       sudo rsync -a /etc/ansible/ /home/devops/ansible
-      sudo chown -fR devops:devops /home/devops/ansible
-      sudo mv /home/devops/ansible/hosts /home/devops/ansible/inventory
-      sudo cp /home/devops/ansible/ansible.cfg /home/devops/ansible/ansible.cfg.orig
+#      sudo chown -fR devops:devops /home/devops/ansible
+#      sudo mv /home/devops/ansible/hosts /home/devops/ansible/inventory
+#      sudo cp /home/devops/ansible/ansible.cfg /home/devops/ansible/ansible.cfg.orig
 #      sudo sed -i 's/^#inventory \= \/etc\/ansible\/hosts\/host/ inventory\=\/home\/devops\/ansible\/inventory/g' /home/devops/ansible/ansible.cfg
-      sudo sed -i 's/^\#inventory /inventory /g' /home/devops/ansible/ansible.cfg
-      sudo sed -i 's/ \/etc\/ansible\/hosts$/\/home\/devops\/ansible\/inventory /g' /home/devops/ansible/ansible.cfg 
-      sudo sed -i 's/^\#timeout = 10/timeout \= 60/g' /home/devops/ansible/ansible.cfg
-      echo "echo [examservers] >> /home/devops/ansible/inventory" >/tmp/1.sh
-      echo "echo centos1.example.com.local >> /home/devops/ansible/inventory" >>/tmp/1.sh 
-      echo "echo centos2.example.com.local >> /home/devops/ansible/inventory" >>/tmp/1.sh
-      echo "echo [ansiblehosts] >> /home/devops/ansible/inventory" >>/tmp/1.sh
-      echo "echo ansible.example.com.local >> /home/devops/ansible/inventory" >>/tmp/1.sh
-      echo "echo [hakers] >> /home/devops/ansible/inventory" >>/tmp/1.sh
-      echo "echo centos2.example.com.local >> /home/devops/ansible/inventory" >>/tmp/1.sh
-      sudo chmod +x /tmp/1.sh
-      sudo /tmp/1.sh
+#      sudo sed -i 's/^\#inventory /inventory /g' /home/devops/ansible/ansible.cfg
+#      sudo sed -i 's/ \/etc\/ansible\/hosts$/\/home\/devops\/ansible\/inventory /g' /home/devops/ansible/ansible.cfg 
+#      sudo sed -i 's/^\#timeout = 10/timeout \= 60/g' /home/devops/ansible/ansible.cfg
+#      echo "echo [examservers] >> /home/devops/ansible/inventory" >/tmp/1.sh
+#      echo "echo centos1.example.com.local >> /home/devops/ansible/inventory" >>/tmp/1.sh 
+#      echo "echo centos2.example.com.local >> /home/devops/ansible/inventory" >>/tmp/1.sh
+#      echo "echo [ansiblehosts] >> /home/devops/ansible/inventory" >>/tmp/1.sh
+#      echo "echo ansible.example.com.local >> /home/devops/ansible/inventory" >>/tmp/1.sh
+#      echo "echo [hakers] >> /home/devops/ansible/inventory" >>/tmp/1.sh
+#      echo "echo centos2.example.com.local >> /home/devops/ansible/inventory" >>/tmp/1.sh
+#      echo "echo [allhosts:children] >> /home/devops/ansible/inventory" >>/tmp/1.sh
+#      echo "echo examservers >> /home/devops/ansible/inventory" >>/tmp/1.sh
+#      echo "echo ansiblehosts >> /home/devops/ansible/inventory" >>/tmp/1.sh
+#      sudo chmod +x /tmp/1.sh
+#      sudo /tmp/1.sh
+       sudo rm /home/devops/ansible/inventory -rf
+       sudo rm /home/devops/ansible/ansible.cfg -rf
+       sudo cp /vagrant/inventory /home/devops/ansible/inventory
+       sudo cp /vagrant/ansible.cfg /home/devops/ansible/ansible.cfg
+       sudo chown -fR devops:devops /home/devops/ansible
     SHELL
   end
  
