@@ -1,0 +1,40 @@
+$ansible_script= <<SCRIPT
+yum install epel-release -y
+yum install ansible -y
+yum install git -y
+useradd devops
+echo "Ansible123" | passwd devops --stdin
+mkdir -p /home/devops/ansible/inventory
+chown devops.devops /home/devops/ansible
+chown devops.devops /home/devops/ansible/inventory
+SCRIPT
+
+$centos_script= <<SCRIPT
+useradd mgmt
+echo "Ansible123" | passwd mgmt --stdin
+echo "%vagrant ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/mgmt
+echo "PasswordAuthentication yes" >> /etc/ssh/sshd_config
+SCRIPT
+
+Vagrant.configure(2) do |config|
+
+  config.vm.define "ansible" do |conf|
+    conf.vm.box = "centos/7"
+    conf.vm.hostname = 'ansible.example.com'
+    conf.vm.provision "shell", inline: $ansible_script
+    conf.vm.network "private_network", ip: "172.28.128.15"
+  end
+
+  config.vm.define "centos1" do |conf|
+    conf.vm.box = "centos/7"
+    conf.vm.hostname = 'centos1.exmample.org'
+    conf.vm.network "private_network", ip: "172.28.128.16"
+  end
+  
+  config.vm.define "centos2" do |conf|
+    conf.vm.box = "centos/7"
+    conf.vm.hostname = 'centos2.example.com'
+    conf.vm.network "private_network", ip: "172.28.128.17"
+  end
+
+end

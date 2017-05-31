@@ -1,0 +1,4 @@
+[web]
+www.example.com ansible_host=1.2.3.4
+lb.example.com ansible_host=12.84.4.3
+phpfpm[01:99].example.com
