@@ -1,0 +1,29 @@
+
+Vagrant.configure(2) do |config|
+
+  config.vm.define "ansible" do |myconf1|
+    myconf1.vm.box = "centos/7"
+    myconf1.vm.hostname = 'ansible.example.com'
+    myconf1.vm.provision "shell", path: "ansible-deployment.sh"
+    myconf1.vm.provision "shell", path: "adhoc.sh"
+    myconf1.vm.network "private_network", ip: "172.28.128.15",
+      virtualbox__intnet: "ansible"
+  end
+
+ config.vm.define "centos1" do |myconf2|
+    myconf2.vm.box = "centos/7"
+    myconf2.vm.hostname = 'centos1.example.com'
+    myconf2.vm.provision "shell", path: "centos1-deployment.sh"
+    myconf2.vm.network "private_network", ip: "172.28.128.16",
+      virtualbox__intnet: "ansible"
+  end
+
+#  config.vm.define "centos2" do |myconf3|
+#    myconf3.vm.box = "centos/7"
+#    myconf3.vm.hostname = 'centos2.example.com'
+#    myconf3.vm.provision "shell", path: "centos2-deployment.sh"
+#    myconf3.vm.network "private_network", ip: "172.28.128.17",
+#      virtualbox__intnet: "ansible"
+#  end
+
+end

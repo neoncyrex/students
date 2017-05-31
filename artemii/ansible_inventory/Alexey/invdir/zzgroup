@@ -1,5 +1,0 @@
-[allhosts:children]
-artemiiservers
-dbservers
-web
-zabbix
