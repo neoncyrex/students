@@ -1,0 +1,9 @@
+ansible.example.com	ansible_connection=local
+centos.example.com	ansible_ssh_host="172.28.128.16"	ansible_ssh_user="myuser" ansible_ssh_pass=Ansible123
+
+[centosservers]
+ansible.example.com
+centos.example.com
+
+[management]
+ansible.example.com
