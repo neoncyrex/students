@@ -1,0 +1,14 @@
+[examservers]
+centos1.example.com.local ansible_host=10.0.0.102 ansible_ssh_user=ansible ansible_ssh_pass=Ansible123
+centos2.example.com.local ansible_host=10.0.0.103 ansible_ssh_user=ansible ansible_ssh_pass=Ansible123
+
+[ansiblehosts]
+ansible.example.com.local ansible_host=10.0.0.101 ansible_ssh_user=ansible ansible_ssh_pass=Ansible123
+
+[hackers]
+centos2.example.com.local ansible_host=10.0.0.103 amiahacker=true
+
+[allhosts:children]
+examservers
+ansiblehosts
+
