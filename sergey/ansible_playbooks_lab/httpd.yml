@@ -1,0 +1,58 @@
+---
+- name: Install and configure httpd
+  hosts: examservers
+  become: true
+  tasks:
+    - name: install httpd
+      yum:
+        name: httpd
+        state: latest
+
+    - name: start httpd
+      service:
+        name: httpd
+        state: started
+        enabled: yes
+
+    - name: copy httpd.conf file
+      copy:
+        src: ./students/artemii/httpd.conf
+        dest: /etc/httpd/conf/httpd.conf
+        mode: 0644
+      notify: restart httpd
+
+    - name: copy index.html file
+      copy:
+        src: ./students/artemii/index.html
+        dest: /var/www/html/index.html
+      notify: restart httpd
+
+    - lineinfile:
+        path: /var/www/html/index.html
+        insertafter: EOF
+        line: 'Hellow from Sergey'
+      notify: restart httpd
+
+    - name: install firewalld
+      yum:
+        name: firewalld
+        state: present
+
+    - name: start firewalld
+      service:
+        name: firewalld
+        state: started
+        enabled: yes
+
+    - name: allow http
+      firewalld:
+        service: http
+        permanent: true
+        state: enabled
+        immediate: true
+
+  handlers:
+    - name: restart httpd
+      service:
+        name: httpd
+        state: restarted
