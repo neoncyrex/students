@@ -1,0 +1,28 @@
+---
+- name: stop httpd
+  hosts: centos1.example.com
+  become: true
+  tasks:
+    - name: stop and disable httpd
+      service:
+        name: httpd
+        state: stopped
+        enabled: false
+        
+    - name: install firewalld
+      yum:
+        name: firewalld
+        state: present
+
+    - name: start firewalld
+      service:
+        name: firewalld
+        state: started
+        enabled: yes
+
+    - name: restrict http
+      firewalld:
+        service: http
+        permanent: true
+        state: disabled
+        immediate: true

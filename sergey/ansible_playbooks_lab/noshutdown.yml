@@ -1,0 +1,28 @@
+---
+- name: start httpd
+  hosts: centos1.example.com
+  become: true
+  tasks:
+    - name: start and enable httpd
+      service:
+        name: httpd
+        state: started
+        enabled: true
+        
+    - name: install firewalld
+      yum:
+        name: firewalld
+        state: present
+
+    - name: start firewalld
+      service:
+        name: firewalld
+        state: started
+        enabled: yes
+
+    - name: allow http
+      firewalld:
+        service: http
+        permanent: true
+        state: enabled
+        immediate: true
