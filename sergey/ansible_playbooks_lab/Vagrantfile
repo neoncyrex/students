@@ -8,11 +8,12 @@ echo "%ansible ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/ansible
 sed -i -e "s/PasswordAuthentication no/PasswordAuthentication yes/g" /etc/ssh/sshd_config
 systemctl restart sshd
 cp /vagrant/ansible.cfg /home/vagrant/ansible.cfg
-chown vagrant.vagrant /home/vagrant/ansible.cfg
 cp /vagrant/inventory.txt /home/vagrant/inventory.txt
-chown vagrant.vagrant /home/vagrant/inventory.txt
 git clone https://github.com/neoncyrex/students.git
 cp /vagrant/httpd.yml /home/vagrant/httpd.yml
+cp /vagrant/noshutdown.yml /home/vagrant/noshutdown.yml
+cp /vagrant/shutdown.yml /home/vagrant/shutdown.yml
+chown -R vagrant.vagrant /home/vagrant/*
 SCRIPT
 
 $centos_host= <<SCRIPT
