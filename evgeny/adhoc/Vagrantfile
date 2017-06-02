@@ -16,6 +16,7 @@ Vagrant.configure(2) do |config|
       sudo cp /vagrant/ansible.cfg /home/ansibleadmin/
       sudo cp /vagrant/sshd_config /etc/ssh/sshd_config
       sudo cp /vagrant/runme.sh /home/vagrant/runme.sh
+      sudo cp /vagrant/adhoc.sh /home/vagrant/adhoc.sh
       sudo cp /vagrant/ansibleadmin /etc/sudoers.d/ansibleadmin
       sudo systemctl restart sshd
     SHELL
