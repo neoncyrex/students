@@ -1,7 +1,14 @@
+$script = <<SCRIPT
+sudo yum install epel-release -y
+sudo yum install ansible -y
+sudo yum install git -y
+SCRIPT
+
 Vagrant.configure("2") do |config|
   config.vm.define "ansible" do |myconf|
     myconf.vm.box = "centos/7"
     myconf.vm.hostname = "ansible.example.com"
+    myconf.vm.provision "shell", inline: $script
   end
 
   config.vm.define "centos" do |myconf|
