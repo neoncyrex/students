@@ -1,0 +1,38 @@
+---
+- hosts: centos1.example.com.local
+  become: yes
+  tags:
+    - nodegroup1
+  tasks:
+  - file: 
+      path: /var/www/html/
+      state: directory
+      mode: 0555   
+
+  - name: copy file 
+    copy:
+      src:  /var/tmp/ans.txt 
+      dest: /var/www/html/tag1.html
+      owner: mgmt
+      group: mgmt
+      mode: 0644
+
+- hosts: centos2.example.com.local
+  tags:     
+    - nodegroup2
+  become: yes
+  tasks:
+  - file: 
+      path: /var/www/html/
+      state: directory
+      mode: 0555   
+ 
+  - name: copy file 
+    copy:
+      src:  /var/tmp/ans.txt 
+      dest: /var/www/html/tag2.html
+      owner: mgmt
+      group: mgmt
+      mode: 0644
+
+

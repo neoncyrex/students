@@ -1,0 +1,12 @@
+---
+- hosts: all
+  gather_facts: yes
+  become: true
+  tasks:
+  - stat: 
+      path: /etc/ansible_abort.txt
+    register: status
+
+  - name: create file
+    shell: echo "my node is also {{ansible_hostname}}">/etc/ansible_abort.txt
+    when: status.stat.exists==False

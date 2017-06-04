@@ -1,0 +1,20 @@
+---
+- hosts: production
+  gather_facts: no
+  become: true
+  tasks:
+  - name: create archive
+    archive:
+      path: /etc/
+      dest: /var/tmp/production.tar.gz 
+#  - file: 
+#      path: /var/www/html/
+#      state: directory
+#      mode: 0555   
+
+- hosts: backup
+  tasks: 
+  - name: create backup
+    archive:
+      path: /var/log/messages/*
+      dest: /var/log/backup.tar.gz

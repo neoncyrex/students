@@ -1,0 +1,25 @@
+---
+- hosts: all 
+  gather_facts: yes
+  become: true
+  tasks:
+  - name: display facts data
+    debug: msg=" {{ansible_hostname}}  {{ansible_processor_count}}  {{ansible_default_ipv4.address}}  {{ansible_default_ipv4.macaddress}}"
+  
+  - file: 
+      path: /var/www/html/
+      state: directory
+      mode: 0555   
+
+  - name: ensure file exists
+    copy:
+      content: ""
+      dest: /var/www/html/ansible_defaults.html
+      force: no
+      group: mgmt
+      owner: mgmt
+      mode: 0555  
+
+  - name: insert into file
+    shell: echo "{{ansible_hostname}}  {{ansible_processor_count}}  {{ansible_default_ipv4.address}}  {{ansible_default_ipv4.macaddress}}">>/var/www/html/ansible_defaults.html
+

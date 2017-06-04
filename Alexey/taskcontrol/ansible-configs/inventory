@@ -1,0 +1,12 @@
+[examservers]
+centos1.example.com.local ansible_host=172.28.128.16 ansible_ssh_user=mgmt ansible_ssh_pass=Ansible123
+centos2.example.com.local ansible_host=172.28.128.17 ansible_ssh_user=mgmt ansible_ssh_pass=Ansible123
+
+[ansiblehosts]
+ansible.example.com.local ansible_host=172.28.128.15 ansible_ssh_user=root ansible_ssh_pass=vagrant
+
+[production]
+centos1.example.com.local ansible_host=172.28.128.16 ansible_ssh_user=mgmt ansible_ssh_pass=Ansible123
+
+[backup]
+centos2.example.com.local ansible_host=172.28.128.17 ansible_ssh_user=mgmt ansible_ssh_pass=Ansible123
