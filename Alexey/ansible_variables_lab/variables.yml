@@ -1,0 +1,23 @@
+---
+  become: yes
+  vars_files:
+    - ./local_vars.yml
+  vars:
+    - pkg: httpd
+  tasks:
+    - name: install packages
+      yum: name={{item}} state=installed
+      with_items: "{{packages}}"
+
+    - name: delete packeges
+      yum: name={{item}} state=removed
+      with_items: "{{pkg}}"
+
+    - name: create directory
+      file:
+        path: /var/home
+        state: directory
+        
+    - name: create users
+      user: name={{item.username}} home={{item.homedir}} shell={{item.shell}}
+      with_items: "{{users}}"

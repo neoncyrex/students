@@ -1,0 +1,15 @@
+- name: start httpd
+  hosts: centos1.example.com
+  become: yes
+  tasks:
+    - name: start httpd
+      service:
+        name: httpd
+        state: started
+        enabled: true
+        
+    - name: start firewalld
+      service:
+        name: firewalld
+        state: started
+        enabled: yes

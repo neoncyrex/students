@@ -1,0 +1,10 @@
+---
+- name: stop httpd
+  hosts: centos1.example.com
+  become: true
+  tasks:
+    - name: stop and disable httpd
+      service:
+        name: httpd
+        state: stopped
+        enabled: false
