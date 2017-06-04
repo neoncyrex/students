@@ -14,21 +14,40 @@
 
    - name: firewall install
      yum: name=firewalld state=latest
+   
+   - name: allow http
+     firewalld: 
+       service: http
+       permanent: true
+       state: enabled
 
-   - copy: 
+   - name: start firewall service
+     service:
+       name: firewalld
+       state: restarted
+       enabled: yes
+
+   - name: copy httpd file
+     copy: 
        src: /home/vagrant/files/httpd.conf
        dest: /etc/httpd/conf/httpd.conf
        owner: ansible
        group: ansible
 
-   - copy: 
+   - name: copy index file
+     copy: 
        src: /home/vagrant/files/index.html
        dest: /var/www/html/index.html
        owner: ansible
        group: ansible
 
-   - lineinfile:
+   - name: insert text
+     lineinfile:
        path: /var/www/html/index.html
        insertbefore: '^</html>'
-       line: '<body> Hello from Alexey </body>'
+       line: '<body> Hello from Alexey </body> </html>'
 
+   - name: restart http service
+     service: 
+       name: httpd
+       state: restarted

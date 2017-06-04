@@ -1,0 +1,13 @@
+---
+  vars:
+   packages:
+    - net-tools
+    - bind-utils
+    - tcpdump
+   users:
+    - { username: artemii, homedir: /home/artemii, shell: /bin/bash }
+    - { username: dos, homedir: /home/dos, shell: /bin/sh }
+    - { username: user15, homedir: /var/home/user15, shell: /sbin/nologin}
+   stats: ['15', '19', '-24', '18'] 
+   mystat:
+    - { net: on, storage: off, cpu: off, {{ stats }}}
