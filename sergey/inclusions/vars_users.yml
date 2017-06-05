@@ -1,0 +1,16 @@
+---
+userstodelete:
+  - user12
+  - user15
+  - user18
+userstocreate:
+  - artemii
+  - evgenii
+  - dmitrii
+groupstocreate:
+  - group12
+  - group18
+  - mygroup
+grouptodelete:
+  - deletemegroup1
+  - deletemegroup1

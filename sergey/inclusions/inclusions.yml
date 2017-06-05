@@ -1,0 +1,40 @@
+---
+- name: Inclusion Lab
+  hosts: examservers
+  become: true
+  gather_facts: no
+  vars:
+    - myvarfile: vars_users.yml
+    - mytaskfile: tasks.yml
+  tasks:
+    - name: include vars from {{ myvarfile }}
+      include_vars: 
+        file: "{{ myvarfile }}"
+    
+    - name: create groups
+      group:
+        name: "{{ item }}"
+        state: present
+      with_items: "{{ groupstocreate }}"
+      
+    - name: delete groups
+      group:
+        name: "{{ item }}"
+        state: absent
+      with_items: "{{ grouptodelete }}"
+    
+    - name: create users
+      user:
+        name: "{{ item }}"
+        state: present
+      with_items: "{{ userstocreate }}"
+      
+    - name: delete users
+      user:
+        name: "{{ item }}"
+        state: absent
+        remove: yes
+      with_items: "{{ userstodelete }}"
+      
+    - name: include tasts from {{ mytaskfile }}
+      include: "{{ mytaskfile }}"
