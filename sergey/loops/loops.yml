@@ -1,0 +1,42 @@
+---
+- name: Loop lab
+  hosts: examservers
+  become: true
+  vars:
+    mygroups:
+      stupidmanagers:
+        gid: 7777
+        members:
+          - user1
+          - user2
+          - user3
+      ansibleadmins:
+        gid: 8888
+        members:
+          - user10
+          - user11
+          - user12
+      hackers:
+        gid: 9999
+        members:
+          - user20
+          - user21
+          - user22
+  tasks:
+    - name: create users
+      user:
+        name: "{{ item }}"
+        state: present
+      with_sequence: start=1 end=50 format=user%d
+
+    - name: create groups
+      group:
+        name: "{{ item.key }}"
+        gid: "{{ item.value.gid }}"
+      with_dict: "{{ mygroups }}"
+    
+    - name: change group membership
+      include: inner.yml
+      with_dict: "{{ mygroups }}"
+      loop_control:
+        loop_var: outer_item

@@ -1,0 +1,5 @@
+---
+- user:
+    name: "{{ item }}"
+    group: "{{ outer_item.key }}"
+  with_items: "{{ outer_item.value.members }}"
