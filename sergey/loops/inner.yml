@@ -1,5 +1,6 @@
 ---
 - user:
     name: "{{ item }}"
-    group: "{{ outer_item.key }}"
+    groups: "{{ outer_item.key }}"
+    append: yes
   with_items: "{{ outer_item.value.members }}"

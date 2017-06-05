@@ -7,27 +7,27 @@
       stupidmanagers:
         gid: 7777
         members:
-          - user1
-          - user2
-          - user3
+          - myuser1
+          - myuser11
+          - myuser12
       ansibleadmins:
         gid: 8888
         members:
-          - user10
-          - user11
-          - user12
+          - myuser10
+          - myuser11
+          - myuser12
       hackers:
         gid: 9999
         members:
-          - user20
-          - user21
-          - user22
+          - myuser20
+          - myuser21
+          - myuser22
   tasks:
     - name: create users
       user:
         name: "{{ item }}"
         state: present
-      with_sequence: start=1 end=50 format=user%d
+      with_sequence: start=1 end=50 format=myuser%d
 
     - name: create groups
       group:
