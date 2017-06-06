@@ -1,0 +1,16 @@
+---
+- name: creates a gzipped tarball
+  hosts: examservers
+  become: true
+  tasks:
+    - name: creates a gzipped tarball (production group)
+      archive:
+        path: /etc
+        dest: /var/tmp/production.tar.gz
+      when: inventory_hostname in groups["production"]
+      
+    - name: creates a gzipped tarball (backup group)
+      when: inventory_hostname in groups["backup"]
+      archive:
+        path: /var/log/messages
+        dest: /var/log/backup.tar.gz

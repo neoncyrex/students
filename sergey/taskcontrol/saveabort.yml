@@ -1,0 +1,15 @@
+---
+- name: playbook that selectively updates files
+  hosts: allhosts
+  become: true
+  tasks:
+    - name: ckeck if file exist
+      stat: 
+        path: /etc/ansible_abort.txt
+      register: st
+   
+    - name: change file /etc/ansible_abort.txt
+      copy:
+        dest: /etc/ansible_abort.txt
+        content: "my node is also {{ ansible_hostname }}"
+      when:  st.stat.exists == false

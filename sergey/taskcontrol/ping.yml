@@ -1,0 +1,26 @@
+---
+- name: Selectively run tasks 
+  hosts: examservers
+  become: true
+  tasks:
+    - name: check that directory /var/www/html exists
+      file:
+        path: /var/www/html
+        state: directory
+      tags:
+        - nodegroup1
+        - nodegroup2
+        
+    - name: copy /var/tmp/ans.txt to /var/www/html/tag1.html
+      copy:
+        src: /var/tmp/ans.txt
+        dest: /var/www/html/tag1.html
+      when: inventory_hostname == "centos1.example.com"
+      tags: nodegroup1
+        
+    - name: copy /var/tmp/ans.txt to /var/www/html/tag2.html
+      copy:
+        src: /var/tmp/ans.txt
+        dest: /var/www/html/tag2.html
+      when: inventory_hostname == "centos2.example.com"
+      tags: nodegroup2
