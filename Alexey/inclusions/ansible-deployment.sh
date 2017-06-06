@@ -23,7 +23,9 @@ ssh-keygen -t rsa -f /home/devops/.ssh/id_rsa -N ""
 mkdir /home/devops/ansible
 cp /vagrant/ansible-configs/.ansible.cfg /home/devops/
 cp /vagrant/ansible-configs/inventory /home/devops/ansible/
-cp /vagrant/ansible-configs/loops.yml /home/devops/ansible/loops.yml
+cp /vagrant/ansible-configs/inclusions.yml /home/devops/ansible/inclusions.yml
+cp /vagrant/ansible-configs/vars_users.yml /home/devops/ansible/vars_users.yml
+cp /vagrant/ansible-configs/tasks.yml /home/devops/ansible/tasks.yml
 sudo chown devops:devops /home/devops/ -R
 sudo chmod 0700 /home/devops/ -R
 sudo sed -i.bak -e "s/asswordAuthentication no/asswordAuthentication yes/" /etc/ssh/sshd_config
