@@ -1,0 +1,14 @@
+---
+- name: get and save facts
+  hosts: allhosts
+  become: true
+  tasks:
+    - name: create dir
+      file:
+        path: /var/www/html/
+        state: directory
+        
+    - name: write facts to file
+      copy:
+        dest: /var/www/html/ansible_defaults.html
+        content: "{{ ansible_hostname }} {{ ansible_processor_count }} {{ ansible_default_ipv4.address }} {{ ansible_default_ipv4.macaddress }}"
