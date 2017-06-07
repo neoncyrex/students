@@ -1,7 +1,7 @@
 ---
 - name: isntall and start nginx on backend group
   become: true
-  hosts: backend
+  hosts: backends
   tasks:
     - name: install epel-release repo
       yum:

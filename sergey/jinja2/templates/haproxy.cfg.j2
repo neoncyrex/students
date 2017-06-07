@@ -29,11 +29,17 @@ global
       maxconn                 3000
  
 frontend public
-    bind {{ ansible_eth1.ipv4.address }}:80
+    {% for srv in groups['all'] %}
+    {% if srv in groups['frontends'] %}
+    bind {{ hostvars[srv].ansible_eth1.ipv4.address }}:80
+    {% endif %}
+    {% endfor %}
     default_backend nginx
  
 backend nginx
-    {% for srv in groups['backend'] %}
-    server {{ hostvars[srv].ansible_fqdn }} {{ hostvars[srv].ansible_eth1.ipv4.address }}:80 weight {{ hostvars[srv].ha_weight }} check
+    {% for srv in groups['all'] %}
+    {% if srv in groups['backends'] %}
+    server  {{ hostvars[srv].inventory_hostname }} {{ hostvars[srv].ansible_ssh_host }}:80 weight {{ hostvars[srv].ha_weight }} check
+    {% endif %}
     {% endfor %}
     
