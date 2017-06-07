@@ -1,0 +1,22 @@
+---
+- name: Handle inaccessible information
+  hosts: allhosts
+  become: true
+  tasks:
+    - name: check that /var/www/html dir exists
+      file:
+        name: /var/www/html
+        state: directory
+        
+    - block:
+        - name: copy url to file /var/www/html/inaccess.html
+          get_url:
+            url: http://rhgls.labx.example.com/materials/inaccess.html
+            dest: /var/www/html/inaccess.html
+            force: yes
+      rescue:
+        - name: copy text to file /var/www/html/inaccess.html
+          copy:
+            content: "I did not have access to the url"
+            dest: /var/www/html/inaccess.html
+            

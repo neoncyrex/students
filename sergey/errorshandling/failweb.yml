@@ -1,0 +1,49 @@
+---
+- name: Implement error handling
+  become: true
+  hosts: centos1.example.com
+  force_handlers: True
+  tasks:
+    - name: install mypackage
+      yum:
+        name: mypackage
+        state: installed
+      register: install_results
+      ignore_errors: true
+      notify: task failed
+      
+    - block:
+      - name: show installation results
+        debug: msg={{ install_results }}
+      
+      - name: show installation status
+        debug: msg="Installation failed"     
+      when: install_results.rc != 0
+            
+    - name: start mypackage
+      service:
+        name: mypackage
+        state: started
+        enabled: yes
+      register: start_results
+      ignore_errors: true
+      notify: task failed
+    
+    - block:
+      - name: show start results
+        debug: msg={{ start_results }}
+        
+      - name: show start status
+        debug: msg="Starting failed"
+      when: "'Could not find the requested service' in start_results.msg"
+      
+    - name: show fail status
+      debug: msg="Playbook was not successful"
+      when: install_results.rc != 0 or "'Could not find the requested service' in start_results.msg"
+      
+  handlers:
+    - name: task failed
+      debug: msg="Playbook was not successful"
+    
+    
+      
