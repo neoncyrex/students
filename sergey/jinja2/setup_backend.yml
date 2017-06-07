@@ -1,0 +1,55 @@
+---
+- name: isntall and start nginx on backend group
+  become: true
+  hosts: backend
+  tasks:
+    - name: install epel-release repo
+      yum:
+        name: epel-release
+        state: installed
+        
+    - name: install nginx
+      yum:
+        name: nginx
+        state: installed
+        
+    - name: start and enable nginx
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+        
+    - name: copy /etc/nginx/nginx.conf file
+      template:
+        src: ./templates/nginx.conf.j2
+        dest: /etc/nginx/nginx.conf
+      notify: restart nginx
+        
+    - name: copy /usr/share/nginx/html/index.html file
+      template:
+        src: ./templates/index.html.j2
+        dest: /usr/share/nginx/html/index.html
+        
+    - name: install firewalld
+      yum:
+        name: firewalld
+        state: installed
+        
+    - name: start and enable firewalld
+      service:
+        name: firewalld
+        state: started
+        enabled: yes
+        
+    - name: open port 80
+      firewalld:
+        service: http
+        permanent: true
+        state: enabled
+        immediate: true
+      
+  handlers:
+    - name: restart nginx
+      service:
+        name: nginx
+        state: restarted

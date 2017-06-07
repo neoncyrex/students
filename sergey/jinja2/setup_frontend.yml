@@ -1,0 +1,49 @@
+---
+- name: install and start haproxy on frontend group
+  hosts: allhosts
+  become: true
+  tasks:
+    - block:
+      - name: install haproxy
+        yum:
+          name: haproxy
+          state: installed
+          
+      - name: start and enable haproxy
+        service:
+          name: haproxy
+          state: started
+          enabled: yes
+        
+      - name: copy /etc/haproxy/haproxy.cfg file
+        template:
+          src: ./templates/haproxy.cfg.j2
+          dest: /etc/haproxy/haproxy.cfg
+        notify: restart haproxy
+        
+      - name: install firewalld
+        yum:
+          name: firewalld
+          state: installed
+        
+      - name: start and enable firewalld
+        service:
+          name: firewalld
+          state: started
+          enabled: yes
+        
+      - name: open port 80
+        firewalld:
+          service: http
+          permanent: true
+          state: enabled
+          immediate: true
+          
+      when: inventory_hostname in groups['frontend']
+    
+  handlers:
+    - name: restart haproxy
+      service:
+        name: haproxy
+        state: restarted
+      when: inventory_hostname in groups['frontend']

@@ -1,0 +1,11 @@
+[backend]
+centos1.example.com ansible_ssh_host=10.0.0.102 ansible_ssh_pass="Ansible123" ha_weight=100
+centos2.example.com ansible_ssh_host=10.0.0.103 ansible_ssh_pass="Ansible123" ha_weight=50
+
+[frontend]
+ansible.example.com ansible_ssh_host=10.0.0.101 ansible_ssh_pass="Ansible123"
+
+
+[allhosts:children]
+frontend
+backend
