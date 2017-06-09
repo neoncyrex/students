@@ -1,0 +1,6 @@
+---
+www_user: wwwonly
+www_group: wwwgroup
+frontend: "{{ groups['frontend'] }}"
+backend: "{{ groups['backend'] }}"
+

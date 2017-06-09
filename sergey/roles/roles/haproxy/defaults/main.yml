@@ -1,0 +1,4 @@
+---
+frontend: "{{ groups['frontend'] }}"
+backend: "{{ groups['backend'] }}"
+

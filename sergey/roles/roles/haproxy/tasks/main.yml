@@ -1,0 +1,5 @@
+---
+- block:
+  - include: setup_frontend.yml
+  - include: setup_firewalld.yml
+  when: ansible_distribution == "CentOS"

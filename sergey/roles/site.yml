@@ -1,0 +1,18 @@
+---
+- name: apply role hardering
+  become: true
+  hosts: allhosts
+  roles: 
+  - hardering
+
+- name: install nginx
+  become: true
+  hosts: backend
+  roles:
+  - nginx
+  
+- name: install haproxy
+  become: true
+  hosts: frontend
+  roles:
+  - haproxy

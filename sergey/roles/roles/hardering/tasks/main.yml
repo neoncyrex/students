@@ -1,0 +1,19 @@
+---
+- block:
+
+  - name: update /etc/hosts
+    template:
+      src: hosts.conf.j2
+      dest: /etc/hosts
+
+  - name: create groups
+    group:
+      name: "{{ www_group }}"
+    
+  - name: create users
+    user:
+      name: "{{ www_user }}"
+      groups: "{{ www_group }}"
+      append: yes 
+    
+  when: ansible_distribution == "CentOS"
