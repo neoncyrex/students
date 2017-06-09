@@ -1,0 +1,29 @@
+---
+- hosts: all
+  become: yes
+  vars:
+    backends:
+      - ansible.example.com.local
+    frontends:
+      - centos1.example.com.local
+      - centos2.example.com.local
+  tasks:
+  - name: install epel-release
+    yum: name=epel-release state=present
+    when: inventory_hostname in groups['frontends']
+   
+  - name: install nginx
+    yum: name=nginx state=present
+    when: inventory_hostname in groups['frontends']
+
+  - name: modify haproxy configuration file
+    template:
+      src: nginx.conf.j2
+      dest: /etc/nginx/nginx.conf
+    when: inventory_hostname in groups['frontends']
+
+  - name: copy index file
+    template: 
+      src: index.html.j2
+      dest: /usr/share/nginx/html/index.html
+    when: inventory_hostname in groups['frontends']
