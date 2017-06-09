@@ -1,0 +1,14 @@
+---
+ - name: copy hosts file
+   template:
+     src: hosts.j2
+     dest: /etc/hosts
+
+ - name: create group
+   group: name=wwwgroup state=present
+
+ - name: create wwonly user
+   user: name=wwwonly groups=wwwgroup append=yes state=present createhome=yes
+   
+   
+ 

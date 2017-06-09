@@ -1,0 +1,15 @@
+---
+ - hosts: frontends, backends
+   become: yes
+   roles:
+   - hardening
+
+ - hosts: backends
+   become: yes
+   roles:
+   - nginx
+   
+ - hosts: frontends, backends
+   become: yes
+   roles:
+   - haproxy

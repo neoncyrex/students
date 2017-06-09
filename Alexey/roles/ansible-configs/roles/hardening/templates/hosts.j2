@@ -1,0 +1,9 @@
+127.0.0.1	ansible.example.com	ansible
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+{% for inventory_hostname in groups['backends'] %}
+{{hostvars[inventory_hostname].ansible_eth1.ipv4.address}} {{hostvars[inventory_hostname].ansible_fqdn}}
+{% endfor %} 
+{% for inventory_hostname in groups['frontends'] %}
+{{hostvars[inventory_hostname].ansible_eth1.ipv4.address}} {{hostvars[inventory_hostname].ansible_fqdn}}
+{% endfor %}
