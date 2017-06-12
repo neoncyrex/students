@@ -1,0 +1,6 @@
+---
+ - name: firewall_permit
+   firewalld: port=3306/tcp permanent=true state=enabled
+
+ - name: database_start
+   service: name=mysql state=started enabled=yes

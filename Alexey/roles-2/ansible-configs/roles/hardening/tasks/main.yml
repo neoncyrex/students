@@ -1,0 +1,14 @@
+---
+ - name: install firewalld
+   yum: name=firewalld state=present
+
+ - name: firewalld permit ssh
+   firewalld: service=ssh source=10.0.0.0/24 permanent=true state=enabled 
+
+ - name: disable selinux
+   selinux: state=disabled
+
+ - name: copy hosts file
+   template:
+     src: hosts.j2
+     dest: /etc/hosts

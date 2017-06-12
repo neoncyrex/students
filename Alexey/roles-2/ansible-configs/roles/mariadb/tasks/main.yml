@@ -1,0 +1,9 @@
+---
+ - name: install datebase
+   yum: name=mariadb state=present
+   notify: firewall_permit
+
+ - name: installing DB modules
+   yum: name=MySQL-python state=present
+   notify: database_start
+

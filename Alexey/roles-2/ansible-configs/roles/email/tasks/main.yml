@@ -1,0 +1,12 @@
+---
+ - name: install postfix
+   yum: name=postfix state=present
+
+ - name: configuring email server
+   template: 
+     src: main.cf.j2
+     dest: /etc/postfix/main.cf
+   notify: restart_email
+
+ - name: allow mail
+   firewalld: port=25/tcp permanent=true state=enabled

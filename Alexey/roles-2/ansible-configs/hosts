@@ -1,0 +1,11 @@
+[email]
+mail.xxx.com ansible_host=10.0.0.11 ansible_ssh_user=mgmt ansible_ssh_pass=Ansible123
+
+[mariadb]
+database.xxx.com ansible_host=10.0.0.12 ansible_ssh_user=mgmt ansible_ssh_pass=Ansible123
+
+[http]
+web.xxx.com ansible_host=10.0.0.13 ansible_ssh_user=mgmt ansible_ssh_pass=Ansible123
+
+[nfs]
+fileserver.xxx.com ansible_host=10.0.0.10 ansible_ssh_user=mgmt ansible_ssh_pass=Ansible123
