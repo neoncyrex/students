@@ -18,3 +18,8 @@
    become: yes
    roles:
    - http
+
+ - hosts: nfs
+   become: yes
+   roles:
+   - nfs
