@@ -11,13 +11,19 @@ centos
 ansible
 
 [email]
-ansible.example.com
+ansible.example.com srv_hostname="email.xxx.com"
 
 [db]
-centos1.example.com
+centos1.example.com srv_hostname="database.xxx.com" nfs_remote_share="fileserver.xxx.com:/database" mysql_username="prod" mysql_password="AnsibleCoursePwd"
 
 [httpd]
-centos2.example.com
+centos2.example.com srv_hostname="web.xxx.com" nfs_remote_share="fileserver.xxx.com:/nfsexport"
 
 [nfs]
-centos3.example.com 
+centos3.example.com srv_hostname="fileserver.xxx.com" http_server_ip="10.0.0.103" mysql_server_ip="10.0.0.102"
+
+[nfs_clients:children]
+httpd
+db
+
+

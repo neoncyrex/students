@@ -1,2 +1,4 @@
 ---
 dns_server: 8.8.8.8
+srv_hostname: "{{ ansible_fqdn }}"
+conn_name: "System\\ eth1"

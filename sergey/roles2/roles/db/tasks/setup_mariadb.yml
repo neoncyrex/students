@@ -10,3 +10,31 @@
     state: started
     enabled: true
 
+- name: install epel-release
+  yum:
+    name: epel-release
+    state: installed
+
+- name: install python mysqldb module
+  yum:
+    name: MySQL-python
+    state: installed
+
+- name: set mariadb root password
+  mysql_user:
+    user: root
+    password: "{{ mysql_root_password }}"
+    check_implicit_admin: yes
+    login_user: root
+    login_password: ""
+    state: present
+  ignore_errors: true
+
+- name: add mariadb user
+  mysql_user:
+    user: "{{ mysql_username }}"
+    password: "{{ mysql_password }}"
+    check_implicit_admin: yes
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    state: present

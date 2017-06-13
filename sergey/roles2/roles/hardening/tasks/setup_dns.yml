@@ -17,4 +17,4 @@
     state: present
 
 - name: enable dns config
-  shell: nmcli connection up System\ eth1 
+  shell: nmcli connection up {{ conn_name }} 

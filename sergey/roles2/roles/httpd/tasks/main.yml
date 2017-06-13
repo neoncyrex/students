@@ -1,4 +1,3 @@
 ---
 - include: setup_httpd.yml
 - include: setup_firewall.yml
-- include: setup_hostname.yml

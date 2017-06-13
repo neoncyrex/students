@@ -1,7 +1,0 @@
-127.0.0.1	{{ ansible_fqdn }}	{{ ansible_hostname }}
-127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
-::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
-{% for srv in groups['all'] %}
-{% set h=hostvars[srv] %}
-{{ h.ansible_eth1.ipv4.address }} {{ h.ansible_fqdn }} {{ h.ansible_hostname }}
-{% endfor %}

@@ -1,4 +1,3 @@
 ---
 - include: setup_postfix.yml
 - include: setup_firewalld.yml
-- include: setup_hostname.yml

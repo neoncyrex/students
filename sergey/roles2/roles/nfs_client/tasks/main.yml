@@ -1,0 +1,8 @@
+---
+- name: mount nfs share
+  mount:
+    path: "{{ nfs_mount_dir }}"
+    src: "{{ nfs_remote_share }}"
+    fstype: nfs
+    opts: _netdev
+    state: mounted

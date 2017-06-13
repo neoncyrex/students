@@ -3,30 +3,35 @@
   become: true
   hosts: allhosts
   roles:
-  - hardening
+  - { role: hardening, tags: hardening }
 
 - name: appply role email
   become: true
   hosts: email
   roles:
-  - email
+  - { role: email, tags: email }
 
 
 - name: apply role db
   become: true
   hosts: db
   roles:
-  - db
+  - { role: db, tags: db }
 
 - name: apply role httpd
   become: true
   hosts: httpd
   roles:
-  - httpd
+  - { role: httpd, tags: httpd }
 
 - name: apply role nfs
   become: true
   hosts: nfs
   roles:
-  - { role: nfs, http_server_ip: 10.0.0.103, mysql_server_ip: 10.0.0.102 }
+  - { role: nfs, tags: nfs}
 
+- name: apply role nfs_client
+  become: true
+  hosts: db, httpd
+  roles:
+  - { role: nfs_client, tags: nfs_client }
