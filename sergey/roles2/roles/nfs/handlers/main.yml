@@ -1,0 +1,8 @@
+---
+- name: read config
+  shell: exportfs -r
+
+- name: update /etc/hosts
+  template:
+    src: hosts.conf.j2
+    dest: /etc/hosts

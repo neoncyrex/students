@@ -1,0 +1,5 @@
+---
+- name: setup hostname
+  hostname:
+    name: "{{ email_hostname }}"
+  notify: update /etc/hosts

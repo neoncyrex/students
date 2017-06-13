@@ -1,0 +1,17 @@
+- name: install firewalld
+  yum:
+    name: firewalld
+    state: installed
+
+- name: start firewalld
+  service: 
+    name: firewalld
+    state: started
+    enabled: yes
+
+- name: allow ssh
+  firewalld:
+    service: ssh
+    state: enabled
+    permanent: true
+    immediate: true

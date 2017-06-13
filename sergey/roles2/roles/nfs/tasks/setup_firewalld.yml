@@ -1,0 +1,11 @@
+---
+- name: allow nfs
+  firewalld:
+    service: "{{ item }}"
+    state: enabled
+    permanent: true
+    immediate: true
+  with_items:
+    - nfs
+    - mountd
+    - rpc-bind

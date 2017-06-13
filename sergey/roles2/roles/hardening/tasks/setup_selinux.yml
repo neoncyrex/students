@@ -1,0 +1,27 @@
+---
+- name: disable selinux
+  lineinfile:
+    regexp: '^SELINUX='
+    line: 'SELINUX=disabled'
+    path: /etc/selinux/config
+  register: selinux_conf
+
+- block:   
+
+  - name: reboot server
+    shell: sleep 2 && shutdown -r now "Ansible reboot"
+    async: 1
+    poll: 0
+    ignore_errors: true
+
+  - name: wait for server to come back
+    local_action: wait_for
+    args:
+      host: "{{ ansible_ssh_host }}"
+      port: 22
+      state: started
+      delay: 5
+      timeout: 60
+    become: false
+
+  when: selinux_conf.msg=="line replaced"

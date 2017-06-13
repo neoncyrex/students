@@ -1,0 +1,32 @@
+---
+- name: apply role hardening
+  become: true
+  hosts: allhosts
+  roles:
+  - hardening
+
+- name: appply role email
+  become: true
+  hosts: email
+  roles:
+  - email
+
+
+- name: apply role db
+  become: true
+  hosts: db
+  roles:
+  - db
+
+- name: apply role httpd
+  become: true
+  hosts: httpd
+  roles:
+  - httpd
+
+- name: apply role nfs
+  become: true
+  hosts: nfs
+  roles:
+  - { role: nfs, http_server_ip: 10.0.0.103, mysql_server_ip: 10.0.0.102 }
+

@@ -1,0 +1,5 @@
+---
+- name: set hostname
+  hostname:
+    name: "{{ nfs_hostname }}"
+  notify: update /etc/hosts

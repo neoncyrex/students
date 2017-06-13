@@ -1,0 +1,5 @@
+---
+- name: set hostname
+  hostname:
+    name: "{{ db_hostname }}"
+  notify: update /etc/hosts

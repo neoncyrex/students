@@ -1,0 +1,10 @@
+---
+- name: restart httpd
+  service:
+    name: httpd
+    state: restarted
+
+- name: update /etc/hosts
+  template:
+    src: hosts.conf.j2
+    dest: /etc/hosts

@@ -1,0 +1,20 @@
+---
+- name: install needed network manager libs
+  yum:
+    name: '{{ item }}'
+    state: installed
+  with_items:
+    - NetworkManager-glib
+    - nm-connection-editor
+    - libsemanage-python
+    - policycoreutils-python
+
+- name: set dns server
+  nmcli:
+    conn_name: System eth1
+    type: ethernet
+    dns4: "{{ dns_server }}"
+    state: present
+
+- name: enable dns config
+  shell: nmcli connection up System\ eth1 

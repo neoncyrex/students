@@ -1,0 +1,4 @@
+---
+- include: setup_mariadb.yml
+- include: setup_firewall.yml
+- include: setup_hostname.yml

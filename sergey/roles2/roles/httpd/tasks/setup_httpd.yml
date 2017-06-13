@@ -1,0 +1,17 @@
+---
+- name: install httpd
+  yum:
+    name: httpd
+    state: installed
+
+- name: start httpd
+  service:
+    name: httpd
+    state: started
+
+- name: update configuration
+  lineinfile:
+    path: /etc/httpd/conf/httpd.conf
+    regexp: '^#ServerName www.example.com:80'
+    line: "ServerName {{ httpd_hostname }}"
+  notify: restart httpd

@@ -1,0 +1,7 @@
+---
+- name: allow smtp
+  firewalld:
+    service: smtp
+    state: enabled
+    permanent: true
+    immediate: true

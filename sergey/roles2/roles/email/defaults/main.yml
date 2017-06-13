@@ -1,0 +1,7 @@
+---
+postfix_inet_interfaces: loopback-only
+postfix_myorigin: mail.xxx.com
+postfix_relayhost: mx.xxx.com
+postfix_mydestination: '' 
+postfix_mynetworks: '10.0.0.0/24, 127.0.0.0/8'
+email_hostname: mail.xxx.com

@@ -1,0 +1,6 @@
+- name: allow mariadb
+  firewalld:
+    service: mysql
+    state: enabled
+    permanent: true
+    immediate: true

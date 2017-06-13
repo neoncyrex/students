@@ -1,0 +1,9 @@
+---
+nfs_hostname: fileserver.xxx.com
+nfs_share:
+  - dir: /nfsexport
+    allowed_hosts: "{{ http_server_ip }}"
+    options: "(ro)"
+  - dir: /database
+    allowed_hosts: "{{ mysql_server_ip }}"
+    options: "(rw)"

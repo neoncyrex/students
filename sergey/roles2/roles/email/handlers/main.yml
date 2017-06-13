@@ -1,0 +1,10 @@
+---
+- name: restart postfix
+  service:
+    name: postfix
+    state: restarted
+  
+- name: update /etc/hosts
+  template:
+    src: hosts.conf.j2
+    dest: /etc/hosts

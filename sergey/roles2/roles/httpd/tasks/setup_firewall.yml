@@ -1,0 +1,7 @@
+---
+- name: allow http
+  firewalld:
+    service: http
+    state: enabled
+    permanent: true
+    immediate: true

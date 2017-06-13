@@ -1,0 +1,4 @@
+---
+- include: setup_nfs-utils.yml
+- include: setup_firewalld.yml
+- include: setup_hostname.yml

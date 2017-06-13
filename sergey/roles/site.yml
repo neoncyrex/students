@@ -1,9 +1,9 @@
 ---
-- name: apply role hardering
+- name: apply role hardening
   become: true
   hosts: allhosts
   roles: 
-  - hardering
+  - hardening
 
 - name: install nginx
   become: true
