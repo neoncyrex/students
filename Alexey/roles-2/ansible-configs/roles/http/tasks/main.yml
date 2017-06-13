@@ -10,3 +10,6 @@
 
  - name: allow firewall
    firewalld: port=80/tcp permanent=true state=enabled
+
+ - name: firewalld_reload
+   service: name=firewalld state=restarted

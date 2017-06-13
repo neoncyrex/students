@@ -10,3 +10,4 @@
 
  - name: allow mail
    firewalld: port=25/tcp permanent=true state=enabled
+   notify: restart_firewall

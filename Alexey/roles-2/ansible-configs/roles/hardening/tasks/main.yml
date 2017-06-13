@@ -1,9 +1,11 @@
 ---
  - name: install firewalld
    yum: name=firewalld state=present
+   notify: firewall_enable
 
  - name: firewalld permit ssh
-   firewalld: service=ssh source=10.0.0.0/24 permanent=true state=enabled 
+   firewalld: service=ssh source={{source_network}} permanent=true state=enabled   
+   notify: firewalld_reload
 
  - name: disable selinux
    selinux: state=disabled
@@ -12,3 +14,9 @@
    template:
      src: hosts.j2
      dest: /etc/hosts
+
+ - name: configure dns server
+   template:
+     src: resolv.conf.j2
+     dest: /etc/resolv.conf
+   notify: restart_network

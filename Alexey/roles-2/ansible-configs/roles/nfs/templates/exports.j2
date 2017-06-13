@@ -1,0 +1,6 @@
+{% for inventory_hostname in groups[{{http_group}}] %}
+/nfsexport <{{hostvars[inventory_hostname].ansible_eth1.ipv4.address}}>(ro)
+{% endfor %}
+{% for inventory_hostname in groups[{{mysql_group}}] %}
+/database <{{hostvars[inventory_hostname].ansible_eth1.ipv4.address}}>(rw)
+{% endfor %}

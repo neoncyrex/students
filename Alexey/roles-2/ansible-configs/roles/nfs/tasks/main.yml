@@ -1,0 +1,28 @@
+---
+ - name: create directory nfsexport
+     path: /nfsexport
+     state: directory
+     mode: 0777
+
+ - name: create directory database
+     path: /database
+     state: directory
+     mode: 0777
+
+ - name: copy settings
+   template: 
+     src: exports.j2 
+     dest: /etc/export
+
+ - name: permit firewall 111/tcp
+   firewalld: zone=public port=111/tcp permanent=true state=enabled
+
+ - name: permit firewall 111/udp
+   firewalld: zone=public port=111/udp permanent=true state=enabled
+
+ - name: permit firewall 2049/tcp
+   firewalld: zone=public port=2049/tcp permanent=true state=enabled
+
+ - name: permit firewall 2049/udp
+   firewalld: zone=public port=2049/udp permanent=true state=enabled
+   notofy: firewalld_reload

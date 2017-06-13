@@ -1,9 +1,23 @@
 ---
  - name: install datebase
-   yum: name=mariadb state=present
-   notify: firewall_permit
+   yum: name=mariadb-server state=present
+
+ - name: permit DB in firewall
+   firewalld: zone=public port=3306/tcp permanent=true state=enabled
+   notify: firewalld_reload
 
  - name: installing DB modules
    yum: name=MySQL-python state=present
    notify: database_start
+
+ - name: create DB proddb
+   mysql_db: name={{db_name}} state=present login_user=root
+
+ - name: create DB user
+   mysql_user: 
+     login_user: root 
+     name: '{{name_user}}'
+     password: '{{password_user}}'
+     priv: '*.*:ALL,GRANT'
+     state: present
 

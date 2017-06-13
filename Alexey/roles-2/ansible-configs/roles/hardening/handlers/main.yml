@@ -1,0 +1,9 @@
+---
+ - name: firewalld_reload
+   service: name=firewalld state=restarted
+
+ - name: firewall_enable
+   service: name=firewalld enabled=yes
+
+ - name: restart_network
+   service: name=network state=restarted
