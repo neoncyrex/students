@@ -1,0 +1,3 @@
+---
+ - name: firewalld_reload
+   service: name=firewalld state=restarted

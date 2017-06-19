@@ -1,0 +1,6 @@
+---
+ - name: firewalld_reload
+   service: name=firewalld state=restarted
+
+ - name: database_start
+   service: name=mysql state=started enabled=yes

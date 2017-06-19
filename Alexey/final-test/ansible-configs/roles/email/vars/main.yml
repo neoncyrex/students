@@ -1,0 +1,5 @@
+---
+myhostname: 'mail.xxx.com'
+interface: 'loopback-only'
+networks: '10.0.0.0/24, 127.0.0.0/8'
+hostrelay: 'mx.xxx.com'

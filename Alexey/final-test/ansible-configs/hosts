@@ -1,0 +1,7 @@
+[backend]
+backend-1.lab.com ansible_host=10.0.0.12 ansible_ssh_user=deployer
+backend-2.lab.com ansible_host=10.0.0.13 ansible_ssh_user=deployer
+
+[www]
+www.lab.com ansible_host=10.0.0.11 ansible_ssh_user=deployer
+
