@@ -1,0 +1,19 @@
+---
+staff:
+ - user1
+ - user2
+ - user3
+ - user999
+
+guests:
+ - mg1
+ - mg2
+ - mg12
+ - mg23423
+ - myp12
+
+revoked:
+ - y1
+ - user555
+ - user15
+ - artemii
