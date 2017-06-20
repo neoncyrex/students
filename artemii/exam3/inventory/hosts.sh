@@ -5,6 +5,7 @@ cat << EOF
 	"group1": [ "node1.example.com", "node2.example.com" ], 
 	"group2": [ "node3.example.com", "node4.example.com" ],
 	"mgmt":   [ "ansible.example.com" ],
+        "group3": [ "ansible.example.com" ],
 
 	"_meta": {
     		"hostvars": {
