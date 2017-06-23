@@ -1,3 +1,0 @@
----
- - name: restart_http
-   service: name=httpd state=restarted enables=yes

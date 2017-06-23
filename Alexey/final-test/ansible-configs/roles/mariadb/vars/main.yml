@@ -1,5 +1,0 @@
----
-name_user: 'prod'
-password_user: 'AnsibleCoursePwd'
-db_name: 'proddb'
-db_admin_password: "Ansible123"

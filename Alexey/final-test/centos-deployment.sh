@@ -17,4 +17,4 @@ chown deployer:deployer /home/deployer/ -R
 chmod 0755 /home/deployer/ -R
 sudo sed -i.bak -e "s/asswordAuthentication no/asswordAuthentication yes/" /etc/ssh/sshd_config
 sudo systemctl restart sshd
-
+sudo setenforce 0
