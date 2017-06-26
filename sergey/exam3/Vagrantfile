@@ -1,0 +1,77 @@
+$ansible_host= <<SCRIPT
+yum install epel-release git httpd -y
+yum install ansible -y
+yum install sshpass -y
+useradd ansible -m
+echo "Ansible123" | passwd ansible --stdin
+echo "%ansible ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/ansible
+sed -i -e "s/PasswordAuthentication no/PasswordAuthentication yes/g" /etc/ssh/sshd_config
+systemctl restart sshd
+su - devops -c "ssh-keygen -f ~/.ssh/id_rsa -t rsa -N ''"
+sshpass -p Ansible123 ssh-copy-id -i /home/devops/.ssh/id_rsa.pub -o StrictHostKeyChecking=no devops@node1
+sshpass -p Ansible123 ssh-copy-id -i /home/devops/.ssh/id_rsa.pub -o StrictHostKeyChecking=no devops@node2
+sshpass -p Ansible123 ssh-copy-id -i /home/devops/.ssh/id_rsa.pub -o StrictHostKeyChecking=no devops@node3
+sshpass -p Ansible123 ssh-copy-id -i /home/devops/.ssh/id_rsa.pub -o StrictHostKeyChecking=no devops@node4
+mkdir -p /etc/ansible/dynamic
+git clone https://github.com/neoncyrex/students.git
+cp -R ./students/artemii/exam3/inventory/* /etc/ansible/dynamic/
+cp -R ./students/artemii/exam3/templates/* /var/www/html/
+systemctl start httpd
+systemctl enable httpd
+cp -R /vagrant/* /home/devops/
+chown -R devops.devops /home/devops/*
+SCRIPT
+
+$centos_host= <<SCRIPT
+useradd devops -m
+echo "Ansible123" | passwd devops --stdin
+echo "%devops ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/devops
+sed -i -e "s/PasswordAuthentication no/PasswordAuthentication yes/g" /etc/ssh/sshd_config
+systemctl restart sshd
+echo "172.21.81.100	ansible.example.com	ansible" >> /etc/hosts
+echo "172.21.81.101	node1.example.com	node1" >> /etc/hosts
+echo "172.21.81.102     node2.example.com       node2" >> /etc/hosts
+echo "172.21.81.103     node3.example.com       node3" >> /etc/hosts
+echo "172.21.81.104     node4.example.com       node4" >> /etc/hosts
+SCRIPT
+
+Vagrant.configure(2) do |config|
+
+  config.vm.define "node1" do |conf|
+    conf.vm.box = "centos/7"
+    conf.vm.hostname = 'node1.exmample.com'
+    conf.vm.network "private_network", ip: "172.21.81.101"
+    conf.vm.provision "shell", inline: $centos_host
+  end
+  
+  config.vm.define "node2" do |conf|
+    conf.vm.box = "centos/7"
+    conf.vm.hostname = 'node2.exmample.com'
+    conf.vm.network "private_network", ip: "172.21.81.102"
+    conf.vm.provision "shell", inline: $centos_host
+  end
+
+  config.vm.define "node3" do |conf|
+    conf.vm.box = "centos/7"
+    conf.vm.hostname = 'node3.exmample.com'
+    conf.vm.network "private_network", ip: "172.21.81.103"
+    conf.vm.provision "shell", inline: $centos_host
+  end
+
+  config.vm.define "node4" do |conf|
+    conf.vm.box = "centos/7"
+    conf.vm.hostname = 'node4.exmample.com'
+    conf.vm.network "private_network", ip: "172.21.81.104"
+    conf.vm.provision "shell", inline: $centos_host
+  end
+
+  config.vm.define "ansible" do |conf|
+    conf.vm.box = "centos/7"
+    conf.vm.hostname = 'ansible.example.com'
+    conf.vm.provision "shell", inline: $centos_host
+    conf.vm.provision "shell", inline: $ansible_host
+    conf.vm.network "private_network", ip: "172.21.81.100"
+  end
+ 
+end
+
