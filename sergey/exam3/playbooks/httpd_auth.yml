@@ -1,0 +1,43 @@
+---
+- name: Create a password protected area
+  become: true
+  hosts: allservers
+  tasks:
+    - name: create protected dir
+      file:
+        path: /var/www/html/protected
+        state: directory
+
+    - name: copy htaccess file
+      get_url:
+        url: http://ansible.example.com/httpd.htaccess
+        dest: /var/www/html/protected/.htaccess
+        owner: apache
+        mode: 0640
+
+    - name: copy htpasswd file
+      get_url:
+        url: http://ansible.example.com/httpd.htpasswd
+        dest: /var/www/html/protected/.htpasswd
+        owner: apache
+        mode: 0640
+
+    - name: set AllowOverride
+      replace:
+        path: /etc/httpd/conf/httpd.conf
+        regexp: 'AllowOverride None'
+        replace: 'AllowOverride AuthConfig'
+      notify: restart httpd
+
+    - name: set protected index.html
+      copy:
+        dest: /var/www/html/protected/index.html
+        content: "This node {{ ansible_hostname }} is protected"
+      notify: restart httpd
+
+  handlers:
+    - name: restart httpd
+      service:
+        name: httpd
+        state: restarted
+

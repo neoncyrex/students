@@ -1,0 +1,22 @@
+---
+- name: turn on httpd
+  become: true
+  hosts: allservers
+  tasks:
+    - block:
+      - name: start and enable httpd
+        service:
+          name: httpd
+          state: stopped
+          enabled: false
+
+      - name: allow http and https
+        firewalld:
+          service: "{{ item }}"
+          state: disabled
+          immediate: true
+          permanent: true
+        with_items:
+          - http
+          - https
+      when: (ansible_hostname == 'node1') or (ansible_hostname == 'node3')

@@ -1,0 +1,4 @@
+---
+- src: http://ansible.example.com/encron.vsftpd.tar.gz
+  name: vsftpd
+

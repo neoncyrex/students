@@ -1,0 +1,5 @@
+{% set char_list='abcdefghijklmnopqrstuvwxyz' %}
+{% for i in char_list %}
+{% for j in char_list %}
+{{ i }}{{ j }} {% endfor %}
+{% endfor %}

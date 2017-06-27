@@ -1,0 +1,18 @@
+---
+- name: Handle inaccessible information
+  become: true
+  hosts: allservers
+  tasks:
+    - block:
+        - name: copy file
+          get_url:
+            url: http://ansible.example.com/inaccess.html
+            dest: /var/www/html/inaccess.html
+            force: yes
+      
+      rescue:
+        - name: copy failed
+          copy:
+            content: "I did not have access to the url"
+            dest: /var/www/html/inaccess.html
+

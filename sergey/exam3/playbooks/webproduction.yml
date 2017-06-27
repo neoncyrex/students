@@ -1,0 +1,28 @@
+---
+- name: Use custom groups
+  become: true
+  hosts: allservers:!exclude
+  tasks:
+    - name: create /var/tmp/production.tar.gz
+      archive:
+        path: /var/www/html
+        dest: /var/tmp/production.tar.gz
+      when: inventory_hostname in groups['production']
+
+    - name: create /var/log/backup.tar.gz
+      archive:
+        path: /var/log/httpd
+        dest: /var/log/backup.tar.gz
+      when: inventory_hostname in groups['backup']
+
+    - name: create /etc/deleteme
+      copy:
+        dest: /etc/deleteme
+        content: "{{ ansible_fqdn }}"
+
+    - name: create /etc/deleteme
+      file:
+        path: /etc/deleteme
+        state: file
+        attributes: "i"
+

@@ -1,0 +1,14 @@
+[production]
+node1.example.com
+node2.example.com
+
+[backup]
+node3.example.com
+node4.example.com
+
+[exclude]
+node4.example.com
+
+[allservers:children]
+production
+backup

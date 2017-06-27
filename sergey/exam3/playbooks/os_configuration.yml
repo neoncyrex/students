@@ -1,0 +1,34 @@
+---
+- name: Configure firewall and SELinux settings
+  become: true
+  hosts: all
+  tasks:
+    - name: install firewalld
+      yum:
+        name: firewalld
+        state: installed
+
+    - name: start firewalld
+      service:
+        name: firewalld
+        state: started
+        enabled: true
+
+    - name: open ssh, http, https
+      firewalld:
+        service: "{{ item }}"
+        state: enabled
+        permanent: true
+        immediate: true
+      with_items:
+        - http
+        - https
+        - ssh
+
+    - name: set selinux permissive (after reboot)
+      selinux:
+        policy: targeted
+        state: permissive
+
+    - name: set selinux permissive (current)
+      shell: "setenforce 0"

@@ -7,19 +7,23 @@ echo "Ansible123" | passwd ansible --stdin
 echo "%ansible ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/ansible
 sed -i -e "s/PasswordAuthentication no/PasswordAuthentication yes/g" /etc/ssh/sshd_config
 systemctl restart sshd
-su - devops -c "ssh-keygen -f ~/.ssh/id_rsa -t rsa -N ''"
-sshpass -p Ansible123 ssh-copy-id -i /home/devops/.ssh/id_rsa.pub -o StrictHostKeyChecking=no devops@node1
-sshpass -p Ansible123 ssh-copy-id -i /home/devops/.ssh/id_rsa.pub -o StrictHostKeyChecking=no devops@node2
-sshpass -p Ansible123 ssh-copy-id -i /home/devops/.ssh/id_rsa.pub -o StrictHostKeyChecking=no devops@node3
-sshpass -p Ansible123 ssh-copy-id -i /home/devops/.ssh/id_rsa.pub -o StrictHostKeyChecking=no devops@node4
+su - ansible -c "ssh-keygen -f ~/.ssh/id_rsa -t rsa -N ''"
+sshpass -p Ansible123 ssh-copy-id -i /home/ansible/.ssh/id_rsa.pub -o StrictHostKeyChecking=no devops@node1
+sshpass -p Ansible123 ssh-copy-id -i /home/ansible/.ssh/id_rsa.pub -o StrictHostKeyChecking=no devops@node2
+sshpass -p Ansible123 ssh-copy-id -i /home/ansible/.ssh/id_rsa.pub -o StrictHostKeyChecking=no devops@node3
+sshpass -p Ansible123 ssh-copy-id -i /home/ansible/.ssh/id_rsa.pub -o StrictHostKeyChecking=no devops@node4
 mkdir -p /etc/ansible/dynamic
 git clone https://github.com/neoncyrex/students.git
 cp -R ./students/artemii/exam3/inventory/* /etc/ansible/dynamic/
+chmod +x /etc/ansible/dynamic/*.sh
+mv /etc/ansible/dynamic/hosts.sh /etc/ansible/dynamic/ahosts.sh
+mv /etc/ansible/dynamic/abackup /etc/ansible/dynamic/backup
 cp -R ./students/artemii/exam3/templates/* /var/www/html/
 systemctl start httpd
 systemctl enable httpd
-cp -R /vagrant/* /home/devops/
-chown -R devops.devops /home/devops/*
+cp -R /vagrant/* /home/ansible/
+chown -R ansible.ansible /home/ansible/*
+cp /vagrant/my_groups /etc/ansible/dynamic/my_groups
 SCRIPT
 
 $centos_host= <<SCRIPT

@@ -1,0 +1,33 @@
+---
+- name: handle sensitive data
+  become: true
+  vars_files:
+    - crypt.yml
+  hosts: 
+    - node2.example.com
+    - node4.example.com
+  tasks:
+    - name: creare /var/www/html/vault
+      file:
+        path: /var/www/html/vault
+        state: directory
+
+    - name: get encrypted zip file
+      get_url:
+        url: http://ansible.example.com/vault.zip
+        dest: /var/www/html/vault/
+
+    - name: install unzip
+      yum:
+        name: unzip
+        state: installed
+
+    - name: decrypt zip file
+      command: sudo unzip -P {{ password }} -o /var/www/html/vault/vault.zip -d /var/www/html/vault/
+
+    - name: remove zip file
+      file:
+        path: /var/www/html/vault/vault.zip
+        state: absent
+
+

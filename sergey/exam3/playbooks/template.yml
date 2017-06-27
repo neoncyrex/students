@@ -1,0 +1,11 @@
+---
+- name: develop a template
+  hosts: mgmt
+  become: true
+  tasks:
+    - name: create file from template
+      template:
+        src: template.j2
+        dest: /var/tmp/template_results
+
+

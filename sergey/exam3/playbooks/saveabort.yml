@@ -1,0 +1,15 @@
+---
+- name: Create a playbook that selectively updates files
+  become: true
+  hosts: allservers
+  tasks:
+    - name: check if file exists
+      stat:
+        path: /etc/ansible_abort.txt
+      register: st
+    
+    - name: create file if not exist
+      copy:
+        dest: /etc/ansible_abort.txt
+        content: "my node is also {{ ansible_hostname }}"
+      when: st.stat.exists == false

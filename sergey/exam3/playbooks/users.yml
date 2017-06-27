@@ -1,0 +1,41 @@
+---
+- name: Create user accounts
+  become: true
+  hosts: group1:group2
+  vars_files:
+    - /var/www/html/users.yml
+  tasks:
+    - name: create groups
+      group:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - staff
+        - guests
+        - webclients
+
+    - name: create users staff
+      user:
+        name: "{{ item }}"
+        state: present
+        groups:
+          - staff
+          - webclients
+        append: yes
+      with_items: "{{ staff }}"
+
+    - name: create users guests
+      user:
+        name: "{{ item }}"
+        state: present
+        groups:
+          - guests
+          - webclients
+        append: yes
+      with_items: "{{ guests }}"
+
+    - name: remove users revoked
+      user:
+        name: "{{ item }}"
+        state: absent
+      with_items: "{{ revoked }}"

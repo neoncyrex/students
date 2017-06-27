@@ -1,0 +1,10 @@
+---
+- name: Create a playbook to display host information
+  become: true
+  hosts: allservers
+  tasks:
+    - name: create file with info line
+      copy:
+        dest: /var/www/html/ansible_defaults.html
+        content: "{{ ansible_hostname }} {{ ansible_processor_count }} {{ ansible_default_ipv4.address }} {{ ansible_default_ipv4.macaddress }}"
+

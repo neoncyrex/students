@@ -1,0 +1,27 @@
+---
+- name: Selectively run tasks
+  become: true
+  hosts: allservers:mgmt
+  tasks:
+    - name: create file /var/tmp/ans.txt 
+      copy:
+        dest: /var/tmp/ans.txt 
+        content: "ABCDEF"
+      when: inventory_hostname in groups['mgmt']
+      tags:
+        - nodegroup1
+        - nodegroup2
+       
+    - name: copy file to nodegroup1
+      copy:
+        src: /var/tmp/ans.txt
+        dest: /var/www/html/tag1.html
+      when: inventory_hostname in groups['group1']
+      tags: nodegroup1
+
+    - name: copy file to nodegroup2
+      copy:
+        src: /var/tmp/ans.txt
+        dest: /var/www/html/tag2.html
+      when: inventory_hostname in groups['group2']
+      tags: nodegroup2

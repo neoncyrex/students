@@ -1,0 +1,32 @@
+---
+- name: Implement error handling
+  become: true
+  hosts: node1.example.com
+  tasks:
+    - name: install ex407-server
+      yum:
+        name: ex407-server
+        state: installed
+      register: st_install
+      ignore_errors: yes 
+
+    - name: start ex407-server
+      service:
+        name: ex407-server
+        state: started
+        enabled: true
+      register: st_start
+      ignore_errors: yes
+
+    - name: show error if installation failed
+      debug: "msg='Installation failed'"
+      when: (st_install | failed)
+
+    - name: show error if starting failed
+      debug: "msg='Starting failed'"
+      when: (st_start | failed)
+
+    - name: show error message
+      debug: "msg='Playbook was not successful'"
+      when: (st_install | failed) or (st_start | failed)
+

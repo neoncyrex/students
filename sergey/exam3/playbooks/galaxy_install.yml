@@ -1,0 +1,18 @@
+---
+- name:
+  become: true
+  hosts: mgmt
+  tasks:
+    - name: create roles dir
+      file:
+        path: /home/ansible/playbooks/roles
+        state: directory
+
+    - name: install role
+      command: ansible-galaxy install -r requirements.yml -p /home/ansible/playbooks/roles
+
+    - name: check ansible.cfg
+      lineinfile:
+        path: /home/ansible/ansible.cfg
+        line: "roles = /home/ansible/playbooks/roles"
+        state: present
