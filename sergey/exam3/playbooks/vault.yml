@@ -23,7 +23,7 @@
         state: installed
 
     - name: decrypt zip file
-      command: sudo unzip -P {{ password }} -o /var/www/html/vault/vault.zip -d /var/www/html/vault/
+      command: unzip -P {{ password }} -o /var/www/html/vault/vault.zip -d /var/www/html/vault/
 
     - name: remove zip file
       file:

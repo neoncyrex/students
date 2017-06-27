@@ -14,5 +14,5 @@
     - name: check ansible.cfg
       lineinfile:
         path: /home/ansible/ansible.cfg
-        line: "roles = /home/ansible/playbooks/roles"
+        line: "roles_path = /home/ansible/playbooks/roles"
         state: present

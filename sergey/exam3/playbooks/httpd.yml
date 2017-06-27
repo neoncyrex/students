@@ -12,6 +12,7 @@
       service:
         name: httpd
         state: started
+        enabled: true
 
     - name: copy httpd.conf
       get_url:
